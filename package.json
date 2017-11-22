@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "prod": "webpack --config webpack.prod.js",
-    "dev": "webpack-dev-server --config webpack.dev.js"
+    "dev": "webpack-dev-server --config webpack.dev.js",
+    "server": "json-server db.json -p 3000 -s dist"
   },
   "repository": {
     "type": "git",

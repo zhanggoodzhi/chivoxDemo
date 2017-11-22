@@ -88,9 +88,7 @@ class Main extends Component {
             if (parent.children[questionIndex].selectAnswer === i) {
                 return (
                     <Radio className="radio-item" value={i}>
-                        <span className="label">
-                            {`${String.fromCharCode(i + 65)}. ${v}`}
-                        </span>
+                        {`${String.fromCharCode(i + 65)}. ${v}`}
                         <Icon className="yes" type="check" />
                     </Radio>
                 );
