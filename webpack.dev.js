@@ -1,6 +1,6 @@
 const path = require('path')
 const root = __dirname
-const HtmlWebpackPlugin = require('html-webpack-plugin')
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 const theme = {
     "primary-color": "#22bf7c"
 };
