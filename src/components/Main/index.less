@@ -1,0 +1,118 @@
+.main {
+    border: 1px solid #ccc;
+    .header {
+        background: #1cb86f;
+        color: white;
+        border-bottom: 3px solid #ff7731;
+        .headset {
+            width: 50px;
+            height: auto;
+            vertical-align: middle;
+        }
+        .big-title {
+            vertical-align: middle;
+            font-size: 25px;
+            padding: 5px 10px;
+        }
+    }
+    .content-wrap {
+        height: 600px;
+        .left {
+            height: 100%;
+            border-right: 1px solid #ccc;
+            position: relative;
+            .logo {
+                position: absolute;
+                width: 100px;
+                height: auto;
+                bottom: 5px;
+                left: 50%;
+                transform: translateX(-50%);
+            }
+        }
+        .right {
+            height: 100%;
+            .loading-wrap {
+                text-align: center;
+                padding-top: 200px;
+                .spin-wrap {
+                    padding: 10px 30px;
+                    width: 250px;
+                    display: inline-block;
+                    border: 1px dashed #ccc;
+                }
+            }
+            .wait-wrap {
+                .title {
+                    text-align: center;
+                    font-size: 27px;
+                    font-weight: bold;
+                    color: #1fb470;
+                    padding-top: 80px;
+                }
+                .circle-wrap {
+                    padding-top: 100px;
+                    text-align: center;
+                    .circle {
+                        line-height: 100px;
+                        display: inline-block;
+                        width: 200px;
+                        height: 120px;
+                        border-radius: ~'200px / 120px';
+                        border: 5px solid #f4b6b7;
+                        .number {
+                            font-size: 110px;
+                            color: #f44647;
+                        }
+                    }
+                }
+            }
+            .write-wrap {
+                .question-title {
+                    padding: 10px 20px;
+                    h2 {
+                        font-weight: bold;
+                    }
+                }
+                .listen-wrap {
+                    .voice-wrap {
+                        padding: 20px 0 10px;
+                        margin: 0 20px;
+                        border-bottom: 1px dashed #ccc;
+                        .anticon-sound {
+                            color: #fd7833!important;
+                        }
+                    }
+                    .answer-wrap {
+                        padding: 20px;
+                        .index {
+                            padding-right: 15px;
+                            float: left;
+                            font-size: 18px;
+                            font-weight: bold;
+                        }
+                        .radio-wrap {
+                            .ant-radio-wrapper {
+                                display: block;
+                                height: 30px;
+                                line-height: 30px;
+                            }
+                            .radio-item {
+                                .label {
+                                    color: #1bb96e;
+                                    vertical-align: middle;
+                                }
+                                .yes {
+                                    margin-left: 10px;
+                                    font-size: 20px;
+                                    color: #1bb96e;
+                                    vertical-align: middle;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

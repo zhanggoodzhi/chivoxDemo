@@ -4,17 +4,13 @@
             "import",
             {
                 "libraryName": "antd",
-                "style": "css"
+                "style": true
             }
         ]
     ],
     "presets": [
-        [
-            "es2015",
-            {
-                "modules": false
-            }
-        ], // webpack 2 本身已支持es6 module
-        "react"
+        "es2015",
+        "react",
+        "stage-0"
     ]
 }

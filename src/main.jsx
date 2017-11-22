@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 // import { Router, Route, browserHistory } from 'react-router';
+import "babel-polyfill";
 import Login from 'Login/index';
 import Main from 'Main/index';
 import {
@@ -14,7 +15,7 @@ ReactDOM.render(
     (
         <Router>
             <div className="container">
-                <Route path="/" component={Login} />
+                <Route path="/login" component={Login} />
                 <Route path="/main" component={Main} />
             </div>
         </Router>

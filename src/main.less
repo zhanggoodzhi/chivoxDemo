@@ -1,5 +1,19 @@
 .container {
     height: 800px;
     padding: 40px 100px 0 100px;
-    border: 1px solid #eee;
+}
+
+.clearfix:before,
+.clearfix:after {
+    content: "";
+    display: table;
+}
+
+.clearfix:after {
+    clear: both;
+    overflow: hidden;
+}
+
+.clearfix {
+    zoom: 1;
 }

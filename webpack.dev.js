@@ -1,6 +1,9 @@
 const path = require('path')
 const root = __dirname
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const theme = {
+    "primary-color": "#22bf7c"
+};
 module.exports = {
     // 入口文件
     entry: path.resolve(root, 'src/main.jsx'),
@@ -18,14 +21,13 @@ module.exports = {
     },
     // loaders
     module: {
-        rules: [
-            {
+        rules: [{
                 test: /\.jsx?$/,
                 use: ['babel-loader'],
                 exclude: /node_modules/
             }, {
                 test: /\.(less|css)$/,
-                use: ['style-loader', 'css-loader', 'less-loader'],
+                use: ['style-loader', 'css-loader', `less-loader?{"modifyVars":${JSON.stringify(theme)}}`],
             }, {
                 test: /\.eot(\?.*)?$/,
                 loader: 'file-loader?name=fonts/[hash].[ext]'
