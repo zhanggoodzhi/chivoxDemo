@@ -4,6 +4,8 @@ import headSet from './assets/white_headset.png';
 import logo from './assets/logo.png';
 import download from './assets/download.png';
 import changeVoiceIcon from './assets/changeVoice.png';
+import recordIcon from './assets/recordicon.png';
+import arcIcon from './assets/arc.png';
 import './index.less';
 
 const RadioGroup = Radio.Group;
@@ -14,7 +16,7 @@ class Main extends Component {
             status: 'download',// download wait write check upload 五种状态
             dataSource: null,
             number: 5,
-            questionType: 'listen',
+            questionType: 'speak',
             questionIndex: 0
         }
         this.timer = null;
@@ -40,7 +42,7 @@ class Main extends Component {
                         answer: ['1111', '2222', '3333'],
                         knowledge: '社交'
                     }, {
-                        voice: 'http://dl.stream.qqmusic.qq.com/C400002z1ZuN1zFgnK.m4a?vkey=868234F1DFEF5966E1FD9D51AAEB160DAD9901034188EF0F092A4A9B7B15BA3DF7778DA6CD97D7AE75B5612A5EF9F70810B6C4B83DF7994D&guid=8253092704&uin=474294484&fromtag=66',
+                        voice: 'http://www.uukaola.com/web/resources/papers/9013c9679358439ba25184afc7a6fbd7/6a41cff527814747997f77fb8ca4e51a_Audio.mp3',
                         correctAnswer: 1,
                         question: 'is it wrong?',
                         article: 'W:Hello2,may I help you?</br>M:Yes.</br>W:thank you!',
@@ -49,7 +51,16 @@ class Main extends Component {
                     }]
                 },
                 speak: {
-
+                    title: '二、朗读短文',
+                    tip: '你将有一分钟时间......',
+                    score: 8,
+                    children: [{
+                        voice: 'http://dl.stream.qqmusic.qq.com/C400002z1ZuN1zFgnK.m4a?vkey=868234F1DFEF5966E1FD9D51AAEB160DAD9901034188EF0F092A4A9B7B15BA3DF7778DA6CD97D7AE75B5612A5EF9F70810B6C4B83DF7994D&guid=8253092704&uin=474294484&fromtag=66',
+                        article: 'Hello,may I help you?thank you!Hello,may I help you?thank you!Hello,may I help you?thank you!Hello,may I help you?thank you!Hello,may I help you?thank you!Hello,may I help you?thank you!Hello,may I help you?thank you!'
+                    }, {
+                        voice: 'http://www.uukaola.com/web/resources/papers/9013c9679358439ba25184afc7a6fbd7/6a41cff527814747997f77fb8ca4e51a_Audio.mp3',
+                        article: 'Hello,may I help you?thank you!Hello,may I help you?thank you!Hello,may I help you?thank you!Hello,may I help you?thank you!Hello,may I help you?thank you!Hello,may I help you?thank you!Hello,may I help you?thank you!'
+                    }]
                 }
             };
             this.setState({
@@ -71,7 +82,7 @@ class Main extends Component {
             } else {
                 clearInterval(this.timer);
                 this.setState({
-                    status: 'check'
+                    status: 'write'
                 });
             }
         }, 0);
@@ -102,6 +113,43 @@ class Main extends Component {
             status: 'write'
         });
     }
+    next = () => {
+        const { questionIndex, dataSource, questionType } = this.state;
+        const length = dataSource[questionType].children.length;
+        if (questionIndex < length - 1) {
+            this.setState({
+                questionIndex: questionIndex + 1
+            });
+        } else {// 一种题目到底了
+            if (questionType === 'listen') {
+                this.setState({
+                    questionType: 'speak',
+                    questionIndex: 0
+                });
+            } else {
+                this.setState({
+                    status: 'upload'
+                });
+            }
+        }
+    }
+
+    pre = () => {
+        const { questionIndex, dataSource, questionType } = this.state;
+        const length = dataSource[questionType].children.length;
+        if (questionIndex !== 0) {
+            this.setState({
+                questionIndex: questionIndex - 1
+            });
+        } else {// 一种题目到了第一个
+            if (questionType === 'speak') {
+                this.setState({
+                    questionType: 'listen',
+                    questionIndex: dataSource.listen.children.length - 1
+                });
+            }
+        }
+    }
     getView = (status) => {
         const { number, dataSource, questionType, questionIndex } = this.state;
         const parent = dataSource && dataSource[questionType];
@@ -109,7 +157,7 @@ class Main extends Component {
             return <div></div>;
         }
         const child = parent && parent.children[questionIndex];
-        const options = child.answer.map((v, i) => {
+        const options = child.answer && child.answer.map((v, i) => {
             if (child.selectAnswer === i) {
                 return (
                     <Radio key={i} className="radio-item green" value={i}>
@@ -120,7 +168,7 @@ class Main extends Component {
             }
             return <Radio key={i} className="radio-item" value={i}>{`${String.fromCharCode(i + 65)}. ${v}`}</Radio>
         });
-        const AnswerOptions = child.answer.map((v, i) => {
+        const AnswerOptions = child.answer && child.answer.map((v, i) => {
             if (child.selectAnswer === i && child.correctAnswer === i) {
                 return (
                     <Radio disabled={true} checked={true} key={i} className="radio-item" value={i}>
@@ -171,9 +219,18 @@ class Main extends Component {
                         </Popover>
                     </div>
                     <div className="option-right">
-                        <a onClick={() => { this.setState({ status: 'check' }) }} className="check-wrap"><Icon className="check" type="search" /><span className="check-text">查看答案解析</span></a>
-                        <Icon className="pre" type="step-backward" />
-                        <Icon className="next" type="step-forward" />
+                        <a onClick={() => { this.setState({ status: 'check' }) }}
+                            className="check-wrap">
+                            <Icon className="check" type="search" />
+                            <span className="check-text">查看答案解析</span>
+                        </a>
+                        {
+                            questionIndex === 0 && questionType === 'listen' ?
+                                ''
+                                :
+                                <Icon onClick={this.pre} className="pre" type="step-backward" />
+                        }
+                        <Icon onClick={this.next} className="next" type="step-forward" />
                     </div>
                 </div>
             </div>
@@ -208,7 +265,33 @@ class Main extends Component {
             </div>
         );
         const speakContent = (
-            <div></div>
+            <div className="speak-wrap">
+                <div className="article-wrap">
+                    <p className="index">{questionIndex + 1}.</p>
+                    <p className="article" dangerouslySetInnerHTML={{ __html: child.article }}></p>
+                </div>
+                <div className="option-wrap clearfix">
+                    <div className="option-left">
+                        <Popover placement="topLeft" title="音量调节" content={popoverContent} trigger="click">
+                            <img src={changeVoiceIcon} alt="" />
+                        </Popover>
+                    </div>
+                    <div className="option-right">
+                        <a onClick={() => { this.setState({ status: 'check' }) }}
+                            className="check-wrap">
+                            <Icon className="check" type="search" />
+                            <span className="check-text">查看答案解析</span>
+                        </a>
+                        <Icon onClick={this.pre} className="pre" type="step-backward" />
+                        <Icon onClick={this.next} className="next" type="step-forward" />
+                    </div>
+                    <div className="record-wrap">
+                        <div className="icon-wrap">
+                            <img src={recordIcon} alt="" />
+                        </div>
+                    </div>
+                </div>
+            </div>
         );
         const speakAnswerContent = (
             <div></div>
@@ -225,7 +308,7 @@ class Main extends Component {
                         <span style={{ marginLeft: 5 }}>正在下载试卷，请稍后……</span>
                     </div>
                 </div>
-            ); break;
+            );
             case 'wait': return (
                 <div className="wait-wrap">
                     <div className="title">
@@ -237,7 +320,7 @@ class Main extends Component {
                         </div>
                     </div>
                 </div>
-            ); break;
+            );
             case 'write':
                 if (!child) {
                     return <div></div>;
@@ -247,14 +330,14 @@ class Main extends Component {
                         {questionIndex !== 0 ? '' : (
                             <div className="question-title">
                                 <h2>{parent.title}（计{parent.score}分）</h2>
-                                <p>{parent.tip}</p>
+                                <p className="content">{parent.tip}</p>
                             </div>
                         )}
                         {
                             questionType === 'listen' ? listenContent : speakContent
                         }
                     </div>
-                ); break;
+                );
             case 'check':
                 if (!child) {
                     return <div></div>;
@@ -271,7 +354,7 @@ class Main extends Component {
                             questionType === 'listen' ? listenAnswerContent : speakAnswerContent
                         }
                     </div>
-                ); break;
+                );
         }
     }
 

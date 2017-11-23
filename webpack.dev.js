@@ -10,7 +10,7 @@ module.exports = {
     // 出口文件
     output: {
         filename: 'bundle.js',
-        path: path.resolve(root, 'dist')
+        path: path.resolve(root, 'public/dist'),
     },
     resolve: {
         extensions: ['.js', '.jsx'],
@@ -46,13 +46,13 @@ module.exports = {
             },
             {
                 test: /\.(jpe?g|png|gif)$/i,
-                loader: 'url-loader?limit=1000&name=images/[hash].[ext]'
+                loader: 'url-loader?limit=1000&name=assets/[name].[ext]'
             }
         ]
     },
     devtool: 'source-map',
     devServer: {
-        contentBase: path.resolve(root, 'dist'),
+        contentBase: path.resolve(root, 'public'),
         historyApiFallback: true,
         port: 9000
     },
