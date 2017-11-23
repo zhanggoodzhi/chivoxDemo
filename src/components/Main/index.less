@@ -84,6 +84,7 @@
                         }
                     }
                     .answer-wrap {
+                        height: 390px;
                         padding: 20px;
                         .index {
                             padding-right: 15px;
@@ -97,16 +98,167 @@
                                 height: 30px;
                                 line-height: 30px;
                             }
+                            .green {
+                                color: #1bb96e;
+                            }
                             .radio-item {
-                                .label {
-                                    color: #1bb96e;
-                                    vertical-align: middle;
-                                }
                                 .yes {
                                     margin-left: 10px;
                                     font-size: 20px;
                                     color: #1bb96e;
                                     vertical-align: middle;
+                                }
+                            }
+                        }
+                    }
+                    .option-wrap {
+                        margin: 30px 50px;
+                        border: 1px solid #ccc;
+                        border-radius: 5px;
+                        .option-left {
+                            float: left;
+                            padding: 5px;
+                            img {
+                                vertical-align: middle;
+                                &:hover {
+                                    cursor: pointer;
+                                    opacity: 0.8;
+                                }
+                            }
+                        }
+                        .option-right {
+                            padding: 7px;
+                            float: right;
+                            .check-wrap {
+                                color: #fe7831;
+                                &:hover {
+                                    .check-text {
+                                        text-decoration: underline;
+                                    }
+                                }
+                                .check {
+                                    font-size: 15px;
+                                    vertical-align: middle;
+                                }
+                                .check-text {
+                                    vertical-align: middle;
+                                }
+                            }
+                            .pre,
+                            .next {
+                                margin-left: 10px;
+                                border: 2px solid #1bb76e;
+                                font-size: 16px;
+                                color: #1bb76e;
+                                border-radius: 35px;
+                                padding: 5px;
+                                vertical-align: middle;
+                                cursor: pointer;
+                                &:hover {
+                                    border-color: #fe7831;
+                                    color: #fe7831;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            .check-wrap {
+                .question-title {
+                    padding: 10px 20px;
+                    h2 {
+                        font-weight: bold;
+                    }
+                }
+                .listen-answer-content-wrap {
+                    margin: 20px 20px 10px;
+                    border: 1px solid #ddd;
+                    border-radius: 5px;
+                    .answer-title {
+                        background: #ededed;
+                        border-bottom: 1px solid #ddd;
+                        h2 {
+                            font-size: 16px;
+                            font-weight: bold;
+                            padding: 6px 10px;
+                        }
+                    }
+                    .answer-content-container {
+                        position: relative;
+                        .content-top {
+                            .sound-label {
+                                vertical-align: middle;
+                            }
+                            .sound {
+                                margin-left: 5px;
+                                cursor: pointer;
+                                vertical-align: middle;
+                                color: #fe792e;
+                                &:hover {
+                                    color: orange;
+                                }
+                            }
+                            margin: 10px 10px 0;
+                            padding-bottom: 10px;
+                            border-bottom: 1px dashed #ddd;
+                            p {
+                                padding-left: 10px;
+                                font-size: 14px;
+                            }
+                        }
+                        .content-bottom {
+                            height: 350px;
+                            padding: 20px;
+                            .radio-wrap {
+                                .ant-radio-wrapper {
+                                    display: block;
+                                    height: 30px;
+                                    line-height: 30px;
+                                }
+                                .green {
+                                    color: #1bb96e;
+                                }
+                                .red {
+                                    color: #fe3636;
+                                }
+                                .radio-item {
+                                    .yes {
+                                        margin-left: 10px;
+                                        font-size: 20px;
+                                        color: #1bb96e;
+                                        vertical-align: middle;
+                                    }
+                                    .no {
+                                        margin-left: 10px;
+                                        font-size: 20px;
+                                        color: #fe3636;
+                                        vertical-align: middle;
+                                    }
+                                }
+                            }
+                            .knowledge-wrap {
+                                margin-top: 10px;
+                                .tag {
+                                    background: #cef3e1;
+                                    color: #04a15a;
+                                    font-weight: bold;
+                                    display: inline-block;
+                                    border-radius: 5px;
+                                    padding: 3px 5px;
+                                    margin-right: 5px;
+                                }
+                            }
+                        }
+                        .back-wrap {
+                            position: absolute;
+                            bottom: 20px;
+                            right: 10px;
+                            .ant-btn {
+                                color: #fe7a32;
+                                border-color: #fe7a32;
+                                &:hover {
+                                    color: #22bf7c;
+                                    border-color: #22bf7c;
                                 }
                             }
                         }

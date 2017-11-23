@@ -27,7 +27,7 @@ module.exports = {
                 exclude: /node_modules/
             }, {
                 test: /\.(less|css)$/,
-                use: ['style-loader', 'css-loader', `less-loader?{"modifyVars":${JSON.stringify(theme)}}`],
+                use: ['style-loader', 'css-loader', 'postcss-loader', `less-loader?{"modifyVars":${JSON.stringify(theme)}}`],
             }, {
                 test: /\.eot(\?.*)?$/,
                 loader: 'file-loader?name=fonts/[hash].[ext]'
