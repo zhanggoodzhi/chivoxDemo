@@ -17,7 +17,7 @@ class Main extends Component {
             status: 'download',// download wait write check upload 五种状态
             dataSource: null,
             number: 5,
-            questionType: 'speak',
+            questionType: 'listen',
             questionIndex: 0,
             recordIconState: 'pause'
         }
@@ -38,15 +38,14 @@ class Main extends Component {
                     title: '一、听力选答',
                     tip: '本部分有6小题......',
                     score: 10,
+                    voice: 'http://dl.stream.qqmusic.qq.com/C400002z1ZuN1zFgnK.m4a?vkey=868234F1DFEF5966E1FD9D51AAEB160DAD9901034188EF0F092A4A9B7B15BA3DF7778DA6CD97D7AE75B5612A5EF9F70810B6C4B83DF7994D&guid=8253092704&uin=474294484&fromtag=66',
                     children: [{
-                        voice: 'http://dl.stream.qqmusic.qq.com/C400002z1ZuN1zFgnK.m4a?vkey=868234F1DFEF5966E1FD9D51AAEB160DAD9901034188EF0F092A4A9B7B15BA3DF7778DA6CD97D7AE75B5612A5EF9F70810B6C4B83DF7994D&guid=8253092704&uin=474294484&fromtag=66',
                         correctAnswer: 2,
                         question: 'is it ok?',
                         article: 'W:Hello,may I help you?</br>M:Yes.</br>W:thank you!',
                         answer: ['1111', '2222', '3333'],
                         knowledge: '社交'
                     }, {
-                        voice: 'http://www.uukaola.com/web/resources/papers/9013c9679358439ba25184afc7a6fbd7/6a41cff527814747997f77fb8ca4e51a_Audio.mp3',
                         correctAnswer: 1,
                         question: 'is it wrong?',
                         article: 'W:Hello2,may I help you?</br>M:Yes.</br>W:thank you!',
@@ -74,26 +73,26 @@ class Main extends Component {
             this.reduceTime();
         }, 0);
         // 初始化recorderjs
-        let audio_context;
-        try {
-            // webkit shim
-            window.AudioContext = window.AudioContext || window.webkitAudioContext;
-            navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia;
-            window.URL = window.URL || window.webkitURL;
-            audio_context = new AudioContext();
-            console.log('Audio context set up.');
-            console.log('navigator.getUserMedia ' + (navigator.getUserMedia ? 'available.' : 'not present!'));
-        } catch (e) {
-            message.error('该浏览器不支持语音输入!');
-        }
-        navigator.getUserMedia({ audio: true }, (stream) => {
-            const input = audio_context.createMediaStreamSource(stream);
-            console.log('Media stream created.');
-            this.recorder = new Recorder(input);
-            console.log('Recorder initialised.');
-        }, (err) => {
-            console.log('获取麦克风出错', '错误:' + err);
-        })
+        // let audio_context;
+        // try {
+        //     // webkit shim
+        //     window.AudioContext = window.AudioContext || window.webkitAudioContext;
+        //     navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia;
+        //     window.URL = window.URL || window.webkitURL;
+        //     audio_context = new AudioContext();
+        //     console.log('Audio context set up.');
+        //     console.log('navigator.getUserMedia ' + (navigator.getUserMedia ? 'available.' : 'not present!'));
+        // } catch (e) {
+        //     message.error('该浏览器不支持语音输入!');
+        // }
+        // navigator.getUserMedia({ audio: true }, (stream) => {
+        //     const input = audio_context.createMediaStreamSource(stream);
+        //     console.log('Media stream created.');
+        //     this.recorder = new Recorder(input);
+        //     console.log('Recorder initialised.');
+        // }, (err) => {
+        //     console.log('获取麦克风出错', '错误:' + err);
+        // })
     }
 
     reduceTime = () => {
@@ -130,11 +129,7 @@ class Main extends Component {
         this.audio.volume = value / 100;
     }
     backToWrite = () => {
-        const { dataSource, questionIndex } = this.state;
-        const oldDataSource = { ...dataSource };
-        oldDataSource.listen.children[questionIndex].selectAnswer = null;
         this.setState({
-            dataSource: oldDataSource,
             status: 'write'
         });
     }
@@ -182,16 +177,17 @@ class Main extends Component {
             return <div></div>;
         }
         const child = parent && parent.children[questionIndex];
+        debugger
         const options = child.answer && child.answer.map((v, i) => {
             if (child.selectAnswer === i) {
                 return (
-                    <Radio key={i} className="radio-item green" value={i}>
+                    <Radio checked={true} key={v + i.toString()} className="radio-item green" value={i}>
                         {`${String.fromCharCode(i + 65)}. ${v}`}
                         <Icon className="yes" type="check" />
                     </Radio>
                 );
             }
-            return <Radio key={i} className="radio-item" value={i}>{`${String.fromCharCode(i + 65)}. ${v}`}</Radio>
+            return <Radio checked={false} key={v + i.toString()} className="radio-item" value={i}>{`${String.fromCharCode(i + 65)}. ${v}`}</Radio>
         });
         const AnswerOptions = child.answer && child.answer.map((v, i) => {
             if (child.selectAnswer === i && child.correctAnswer === i) {
@@ -226,9 +222,14 @@ class Main extends Component {
         )
         const listenContent = (
             <div className="listen-wrap">
-                <div className="voice-wrap">
-                    <Button onClick={() => { this.playAudio(child.voice) }} icon="sound">原文播放</Button>
-                </div>
+                {
+                    questionIndex === 0 ?
+                        (
+                            <div className="voice-wrap">
+                                <Button onClick={() => { this.playAudio(parent.voice) }} icon="sound">原文播放</Button>
+                            </div>
+                        ) : ''
+                }
                 <div className="answer-wrap">
                     <span className="index">{questionIndex + 1}.</span>
                     <div className="radio-wrap">
@@ -267,7 +268,7 @@ class Main extends Component {
                 </div>
                 <div className="answer-content-container">
                     <div className="content-top">
-                        <p><span className="sound-label">[听力原文]</span><Icon onClick={() => { this.playAudio(child.voice) }} className="sound" type="sound" /></p>
+                        <p><span className="sound-label">[听力原文]</span><Icon onClick={() => { this.playAudio(parent.voice) }} className="sound" type="sound" /></p>
                         <p dangerouslySetInnerHTML={{ __html: child.article }}></p>
                     </div>
                     <div className="content-bottom">
