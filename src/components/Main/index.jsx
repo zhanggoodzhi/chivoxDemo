@@ -6,6 +6,7 @@ import download from './assets/download.png';
 import changeVoiceIcon from './assets/changeVoice.png';
 import recordIcon from './assets/recordicon.png';
 import arcIcon from './assets/arc.png';
+import Recorder from 'recorderjs/recorder.js';
 import './index.less';
 
 const RadioGroup = Radio.Group;
@@ -17,16 +18,19 @@ class Main extends Component {
             dataSource: null,
             number: 5,
             questionType: 'speak',
-            questionIndex: 0
+            questionIndex: 0,
+            recordIconState: 'pause'
         }
         this.timer = null;
         this.audio = document.createElement('audio');
+        this.recorder = null;
     }
 
     componentWillMount() {
         this.setState({
             status: 'download'
         });
+        // 模拟取后台试卷数据
         setTimeout(() => {
             const dataSource = {
                 title: '北京7年级听说模拟试卷009',
@@ -69,6 +73,27 @@ class Main extends Component {
             });
             this.reduceTime();
         }, 0);
+        // 初始化recorderjs
+        let audio_context;
+        try {
+            // webkit shim
+            window.AudioContext = window.AudioContext || window.webkitAudioContext;
+            navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia;
+            window.URL = window.URL || window.webkitURL;
+            audio_context = new AudioContext();
+            console.log('Audio context set up.');
+            console.log('navigator.getUserMedia ' + (navigator.getUserMedia ? 'available.' : 'not present!'));
+        } catch (e) {
+            message.error('该浏览器不支持语音输入!');
+        }
+        navigator.getUserMedia({ audio: true }, (stream) => {
+            const input = audio_context.createMediaStreamSource(stream);
+            console.log('Media stream created.');
+            this.recorder = new Recorder(input);
+            console.log('Recorder initialised.');
+        }, (err) => {
+            console.log('获取麦克风出错', '错误:' + err);
+        })
     }
 
     reduceTime = () => {
@@ -151,7 +176,7 @@ class Main extends Component {
         }
     }
     getView = (status) => {
-        const { number, dataSource, questionType, questionIndex } = this.state;
+        const { number, dataSource, questionType, questionIndex, recordIconState } = this.state;
         const parent = dataSource && dataSource[questionType];
         if (!parent) {
             return <div></div>;
@@ -285,10 +310,22 @@ class Main extends Component {
                         <Icon onClick={this.pre} className="pre" type="step-backward" />
                         <Icon onClick={this.next} className="next" type="step-forward" />
                     </div>
+                    <div className="arc">
+                        <img src={arcIcon} alt="" />
+                    </div>
                     <div className="record-wrap">
-                        <div className="icon-wrap">
-                            <img src={recordIcon} alt="" />
-                        </div>
+                        {
+                            recordIconState === 'play' ?
+                                (
+                                    <div onClick={this.playAudio} className="icon-wrap">
+                                        <img src={recordIcon} alt="" />
+                                    </div>
+                                )
+                                :
+                                (
+                                    <Icon onClick={this.pauseAudio} className="stop" type="pause-circle" />
+                                )
+                        }
                     </div>
                 </div>
             </div>
@@ -356,6 +393,17 @@ class Main extends Component {
                     </div>
                 );
         }
+    }
+    playAudio = () => {
+        this.setState({
+            recordIconState: 'pause'
+        });
+    }
+
+    pauseAudio = () => {
+        this.setState({
+            recordIconState: 'play'
+        });
     }
 
     render() {

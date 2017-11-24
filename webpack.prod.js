@@ -18,6 +18,7 @@ module.exports = {
         extensions: ['.js', '.jsx'],
         modules: [
             path.resolve('src/components'),
+            path.resolve('src/plugin'),
             'node_modules'
         ],
     },
@@ -59,7 +60,7 @@ module.exports = {
     plugins: [
         new HtmlWebpackPlugin({
             title: 'React Demo',
-            filename:'../index.html',
+            filename: '../index.html',
             template: path.resolve(root, 'template.html')
         }),
         new ExtractTextPlugin("index.css"),
