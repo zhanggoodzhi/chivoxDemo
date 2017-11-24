@@ -6,7 +6,7 @@ import download from './assets/download.png';
 import changeVoiceIcon from './assets/changeVoice.png';
 import recordIcon from './assets/recordicon.png';
 import arcIcon from './assets/arc.png';
-import Recorder from 'recorderjs/recorder.js';
+import Recorder from 'recorderjs/recorder';
 import './index.less';
 
 const RadioGroup = Radio.Group;
