@@ -7,7 +7,7 @@ const theme = {
 };
 module.exports = {
     // 入口文件
-    entry: path.resolve(root, 'src/main.jsx'),
+    entry: path.resolve(root, 'src/index.jsx'),
     // 出口文件
     output: {
         filename: 'bundle.js',
@@ -18,7 +18,7 @@ module.exports = {
         extensions: ['.js', '.jsx'],
         modules: [
             path.resolve('src/components'),
-            path.resolve('src/plugin'),
+            path.resolve('src'),
             'node_modules'
         ],
     },

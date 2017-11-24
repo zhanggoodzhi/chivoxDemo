@@ -16,7 +16,7 @@
         }
     }
     .content-wrap {
-        height: 600px;
+        height: 760px;
         .left {
             height: 100%;
             border-right: 1px solid #ccc;
@@ -32,9 +32,14 @@
         }
         .right {
             height: 100%;
+            position: relative;
             .loading-wrap {
                 text-align: center;
-                padding-top: 200px;
+                position: absolute;
+                left: 0;
+                top: 50%;
+                transform: translateY(-50%);
+                right: 0;
                 .spin-wrap {
                     padding: 10px 30px;
                     width: 350px;
@@ -51,7 +56,11 @@
                     padding-top: 80px;
                 }
                 .circle-wrap {
-                    padding-top: 100px;
+                    position: absolute;
+                    left: 0;
+                    top: 50%;
+                    transform: translateY(-50%);
+                    right: 0;
                     text-align: center;
                     .circle {
                         line-height: 100px;

@@ -7,7 +7,7 @@ import end from './assets/end.png';
 import changeVoiceIcon from './assets/changeVoice.png';
 import recordIcon from './assets/recordicon.png';
 import arcIcon from './assets/arc.png';
-import Recorder from 'recorderjs/recorder';
+import Recorder from 'plugin/recorderjs/recorder';
 import './index.less';
 
 const RadioGroup = Radio.Group;
@@ -480,8 +480,7 @@ class Main extends Component {
                         <img src={end} alt="" />
                     </div>
                     <div className="spin-wrap">
-                        <Spin />
-                        <span style={{ marginLeft: 5 }}>正在上传本次练习结果，请耐心等待……</span>
+                        <span style={{ marginLeft: 5 }}>恭喜您通过了该测验!</span>
                     </div>
                 </div>
             );
